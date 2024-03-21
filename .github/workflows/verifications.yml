@@ -15,7 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/cache@v3
+      - uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.6"
       - name: Install Ceedling
