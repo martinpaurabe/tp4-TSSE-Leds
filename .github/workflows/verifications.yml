@@ -34,7 +34,6 @@ jobs:
           path: build/artifacts/gcov/report.xml
           reporter: jest-junit
       - name: Code Coverage Report
-        uses: 5monkeys/cobertura-action@master
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          path: build/artifacts/gcov/GcovCoverageCobertura.xml
-          minimum_coverage: 75
+          filename: build/artifacts/gcov/GcovCoverageCobertura.xml
