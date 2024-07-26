@@ -100,6 +100,6 @@ void test_prender_y_apagar_varios_leds(void) {
     leds_turn_off(5);
 
     // El bit 6 está en alto y el resto en bajo
-    TEST_ASSERT_EQUAL_UINT16(1 << (7 - 1), leds_virtuales);
+    TEST_ASSERT_EQUAL_UINT16(1 << (6 - 1), leds_virtuales);
 }
 /* === End of documentation ==================================================================== */
