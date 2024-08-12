@@ -1,5 +1,9 @@
 /************************************************************************************************
-Copyright (c) 2023, Esteban Volentini <evolentini@herrera.unt.edu.ar>
+Copyright 2024, Testing de Software en Sistemas Embebidos
+Facultad de Ingenieria
+Universidad de Buenos Aires
+
+Copyright (c) 2023, Martin Paura Bersan <mpb39212@gmail.comr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -20,11 +24,10 @@ SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
 /** @file main.c
- ** @brief Definición de la función principal del programa
+ ** @brief Definicion de la funcion principal del proyecto
  **/
 
 /* === Headers files inclusions =============================================================== */
-
 #include "main.h"
 
 /* === Macros definitions ====================================================================== */
@@ -42,8 +45,13 @@ SPDX-License-Identifier: MIT
 /* === Private function implementation ========================================================= */
 
 /* === Public function implementation ========================================================== */
-
+/**
+ * @brief Funcion principal del proyecto
+ *
+ * @return int
+ */
 int main(void) {
+    printf("Inicia el programa\n");
     return 0;
 }
 

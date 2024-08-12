@@ -1,5 +1,9 @@
 /************************************************************************************************
-Copyright (c) 2023, Esteban Volentini <evolentini@herrera.unt.edu.ar>
+Copyright 2024, Ingenieria de Software
+Facultad de Ingenieria
+Universidad de Buenos Aires
+
+Copyright (c) 2023, Martin Paura Bersan <mpb39212@gmail.comr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -23,12 +27,12 @@ SPDX-License-Identifier: MIT
 #define LEDS_H
 
 /** @file leds.h
- ** @brief Definiciones de la biblioteca para manejo de leds
+ ** @brief Declaración de las funciones para el manejo del puerto con los leds
  **/
 
 /* === Headers files inclusions ================================================================ */
-
-#include <stdint.h>
+#include <stdint.h> //La incluyo en el ".h" porque la declaracion de las funciones lo necesita
+#include <stdbool.h>
 
 /* === Cabecera C++ ============================================================================ */
 
@@ -37,6 +41,11 @@ extern "C" {
 #endif
 
 /* === Public macros definitions =============================================================== */
+#define CANT_LEDS    16
+#define LED_OFFSET   1
+#define FIRST_BIT    0x0001
+#define ALL_LEDS_OFF 0x0000
+#define ALL_LEDS_ON  0xFFFF
 
 /* === Public data type declarations =========================================================== */
 
@@ -45,34 +54,46 @@ extern "C" {
 /* === Public function declarations ============================================================ */
 
 /**
- * @brief Función principal del sistema, se ejecuta al iniciar el programa
+ * @brief Funcion de inicializacion de los leds. Los inicializa todos apagados
  *
- * @return int Valor de retorno, cero si esta todo bien, negativo si hay un error
- */
-int main(void);
-
-/**
- * @brief Función para configurar la biblioteca
- *
- * @remark Esta función debe ser llamada antes que cualquier otra función de la biblioteca
- *
- * @param puerto
+ * @param puerto Puntero a la direccion donde se manejan los pines de los leds
  */
 void leds_init(uint16_t * puerto);
 
 /**
- * @brief Función para prender un led individual
+ * @brief Funcion que recibe el numero de led que tiene que encender del puerto
  *
- * @param led Numero de led a prender (del 1 al 16)
+ * @param led Número de Led a apagar, contando de 1 (LSB) a 16 (MSB)
  */
-void leds_turn_on(int led);
+void led_turn_on(int led);
 
 /**
- * @brief Función para apagar un led inividual
+ * @brief Funcion que apaga un led determinado del puerto
  *
- * @param led Numero de led a apagar (del 1 al 16)
+ * @param led Número de Led a apagar, contando de 1 (LSB) a 16 (MSB)
  */
-void leds_turn_off(int led);
+void led_turn_off(int led);
+
+/**
+ * @brief Funcion que enciende todos los leds del puerto
+ *
+ */
+void leds_turn_on_all(void);
+
+/**
+ * @brief Funcion que apaga todos los leds del puerto
+ *
+ */
+void leds_turn_off_all(void);
+
+/**
+ * @brief Funcion que verfica si un led determinado del arreglo está encendido
+ *
+ * @param led Número de led que queremos verificar el estado
+ * @return true Si el led consultado se encuentra encendido
+ * @return false Si el ledo consultado se encuentra apagdo
+ */
+bool led_is_turned_on(int led);
 
 /* === End of documentation ==================================================================== */
 
@@ -80,4 +101,4 @@ void leds_turn_off(int led);
 }
 #endif
 
-#endif /* MAIN_H */
+#endif /* LEDS_H */

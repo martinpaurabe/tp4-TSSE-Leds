@@ -1,5 +1,9 @@
 /************************************************************************************************
-Copyright (c) 2023, Esteban Volentini <evolentini@herrera.unt.edu.ar>
+Copyright 2024, Testing de Software en Sistemas Embebidos
+Facultad de Ingenieria
+Universidad de Buenos Aires
+
+Copyright (c) 2023, Martin Paura Bersan <mpb39212@gmail.comr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -20,64 +24,64 @@ SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
 /** @file leds.c
- ** @brief Implementación de la biblioteca para manejo de leds
+ ** @brief Definicion de las funciones para el manejo de los leds
  **/
 
 /* === Headers files inclusions =============================================================== */
-
 #include "leds.h"
 
 /* === Macros definitions ====================================================================== */
 
-//! Constante con el bit menos significativo en alto
-#define BIT_HIGH 1
-
-//! Constante con la diferencia entre el numero de led y el numero de bit correspondiente
-#define LED_OFFSET 1
-
-//! Constante para apagar todos los leds
-#define ALL_LED_OFF 0x00
-
 /* === Private data type declarations ========================================================== */
 
 /* === Private variable declarations =========================================================== */
-
-//! Variable para almacenar el puntero al puerto de los leds
-static uint16_t * puntero;
+static uint16_t * puerto_virtual;
 
 /* === Private function declarations =========================================================== */
-
-/**
- * @brief Función para convertir el numero de led en una masca de bits
- *
- * @param led Numero de led que se desea manipular (del 1 al 16)
- * @return uint16_t Mascara con el bit correspondiente al led en 1 y el resto en 0
- */
-static uint16_t led_to_mask(int led);
 
 /* === Public variable definitions ============================================================= */
 
 /* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
-
 static uint16_t led_to_mask(int led) {
-    return (BIT_HIGH << (led - LED_OFFSET));
+    return (FIRST_BIT << (led - LED_OFFSET));
 }
-
 /* === Public function implementation ========================================================== */
 
 void leds_init(uint16_t * puerto) {
-    puntero = puerto;
-    *puntero = ALL_LED_OFF;
+    puerto_virtual = puerto;
+    *puerto_virtual = ALL_LEDS_OFF; // Mínimo código posible para resolver el problema actual
 }
 
-void leds_turn_on(int led) {
-    *puntero |= led_to_mask(led);
+void led_turn_on(int led) { // Si la prueba la hago para un led detarminado podria llamar la fucnion
+                            // led_turn_on_3(void) y que la misma no tenga parámetros.
+    *puerto_virtual |=
+        led_to_mask(led); // Inicialmente se tiene que hacer hardcodeado y a
+                          // medida que vamos pasando los requerimientos se va complicando, por
+                          //  eso es importante ir realizando las pruebas en orden de
+                          //  complejidad de los requerimientos (primero los mas sensillos)
 }
 
-void leds_turn_off(int led) {
-    *puntero &= ~led_to_mask(led);
+void led_turn_off(int led) {
+
+    *puerto_virtual &=
+        ~led_to_mask(led); // Inicialmente se tiene que hacer hardcodeado y
+                           // a medida que vamos pasando los requerimientos se va complicando,
+                           //  por eso es importante ir realizando las pruebas en orden de
+                           //  complejidad de los requerimientos (primero los mas sensillos)
+}
+
+void leds_turn_on_all(void) {
+    *puerto_virtual = ALL_LEDS_ON; // Mínimo código posible para resolver el problema actual
+}
+
+void leds_turn_off_all(void) {
+    *puerto_virtual = ALL_LEDS_OFF; // Mínimo código posible para resolver el problema actual
+}
+
+bool led_is_turned_on(int led) {
+    return (led_to_mask(led) & *puerto_virtual) ? true : false;
 }
 
 /* === End of documentation ==================================================================== */
