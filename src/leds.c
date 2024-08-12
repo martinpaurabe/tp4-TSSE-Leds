@@ -23,18 +23,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file main.c
- ** @brief Definicion de la funcion principal del proyecto
+/** @file leds.c
+ ** @brief Definicion de las funciones para el manejo de los leds
  **/
 
 /* === Headers files inclusions =============================================================== */
-#include "main.h"
+#include "leds.h"
 
 /* === Macros definitions ====================================================================== */
 
 /* === Private data type declarations ========================================================== */
 
 /* === Private variable declarations =========================================================== */
+static uint16_t * puerto_virtual;
 
 /* === Private function declarations =========================================================== */
 
@@ -43,16 +44,44 @@ SPDX-License-Identifier: MIT
 /* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
-
+static uint16_t led_to_mask(int led) {
+    return (FIRST_BIT << (led - LED_OFFSET));
+}
 /* === Public function implementation ========================================================== */
-/**
- * @brief Funcion principal del proyecto
- *
- * @return int
- */
-int main(void) {
-    printf("Inicia el programa\n");
-    return 0;
+
+void leds_init(uint16_t * puerto) {
+    puerto_virtual = puerto;
+    *puerto_virtual = ALL_LEDS_OFF; // Mínimo código posible para resolver el problema actual
+}
+
+void led_turn_on(int led) { // Si la prueba la hago para un led detarminado podria llamar la fucnion
+                            // led_turn_on_3(void) y que la misma no tenga parámetros.
+    *puerto_virtual |=
+        led_to_mask(led); // Inicialmente se tiene que hacer hardcodeado y a
+                          // medida que vamos pasando los requerimientos se va complicando, por
+                          //  eso es importante ir realizando las pruebas en orden de
+                          //  complejidad de los requerimientos (primero los mas sensillos)
+}
+
+void led_turn_off(int led) {
+
+    *puerto_virtual &=
+        ~led_to_mask(led); // Inicialmente se tiene que hacer hardcodeado y
+                           // a medida que vamos pasando los requerimientos se va complicando,
+                           //  por eso es importante ir realizando las pruebas en orden de
+                           //  complejidad de los requerimientos (primero los mas sensillos)
+}
+
+void leds_turn_on_all(void) {
+    *puerto_virtual = ALL_LEDS_ON; // Mínimo código posible para resolver el problema actual
+}
+
+void leds_turn_off_all(void) {
+    *puerto_virtual = ALL_LEDS_OFF; // Mínimo código posible para resolver el problema actual
+}
+
+bool led_is_turned_on(int led) {
+    return (led_to_mask(led) & *puerto_virtual) ? true : false;
 }
 
 /* === End of documentation ==================================================================== */
