@@ -56,7 +56,7 @@ void leds_init(uint16_t * puerto) {
 
 void led_turn_on(int led) { // Si la prueba la hago para un led detarminado podria llamar la fucnion
                             // led_turn_on_3(void) y que la misma no tenga parámetros.
-    *puerto_virtual |=
+*puerto_virtual |=
         led_to_mask(led); // Inicialmente se tiene que hacer hardcodeado y a
                           // medida que vamos pasando los requerimientos se va complicando, por
                           //  eso es importante ir realizando las pruebas en orden de
