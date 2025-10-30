@@ -2,7 +2,6 @@ name: Validations
 
 on:
   push:
-  
   pull_request:
     branches: [main]
 
@@ -15,20 +14,38 @@ permissions:
 jobs:
   verifications:
     runs-on: ubuntu-latest
+
     steps:
+      # 1️⃣ Descargar el repositorio
       - uses: actions/checkout@v4
+
+      # 2️⃣ Instalar Python (para gcovr)
       - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # 3️⃣ Instalar Ruby (para Ceedling)
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
+          bundler-cache: true  # acelera builds futuros
+
+      # 4️⃣ Instalar dependencias
       - name: Install Ceedling
         run: gem install ceedling
+
       - name: Install GCov Reporter
         run: pip install gcovr
+
+      # 5️⃣ Validaciones de formato (si usás pre-commit)
       - name: Run Format Validations
         uses: pre-commit/action@v3.0.0
-      - name: Run Unit Tests
+
+      # 6️⃣ Ejecutar todos los tests con cobertura
+      - name: Run Unit Tests with Coverage
         run: ceedling clobber gcov:all utils:gcov
+
+      # 7️⃣ Publicar reporte de tests (XML para GitHub)
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
@@ -36,6 +53,8 @@ jobs:
           name: Ceedling Unit Tests
           path: build/artifacts/gcov/report.xml
           reporter: jest-junit
+
+      # 8️⃣ Generar resumen de cobertura
       - name: Code Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
@@ -47,8 +66,12 @@ jobs:
           indicators: true
           output: both
           thresholds: "60 80"
+
+      # 9️⃣ Agregar resumen al job summary de GitHub
       - name: Output to Job Summary
         run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+
+      # 🔟 Agregar comentario automático en el PR
       - name: Add Coverage PR Comment
         uses: marocchino/sticky-pull-request-comment@v2
         if: github.event_name == 'pull_request'
