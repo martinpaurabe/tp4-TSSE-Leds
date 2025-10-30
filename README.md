@@ -5,9 +5,15 @@
 Este repositorio utiliza las siguientes herramientas:
 
 1. [clang-format] () para el mantenimiento del formato del código escrito en lenguaje C
-1. [pre-commit](https://pre-commit.com) para validaciones generales de formato del repositorio
-1. [ceedling]() para ejecutar las pruebas unitarias en forma automatizada
-1. [lcov]() para generar los informes de cobertura de las pruebas unitarias
+2. [pre-commit](https://pre-commit.com) para validaciones generales de formato del repositorio
+3. [ceedling]() para ejecutar las pruebas unitarias en forma automatizada
+    a. sudo apt update
+    b. sudo apt install ruby-full
+    c. sudo gem install ceedling
+4. [lcov]() para generar los informes de cobertura de las pruebas unitarias
+    a. sudo apt update
+    b. sudo apt install gcovr
+
 
 Después de clonar el repositorio usted debería ejecutar el siguiente comando:
 

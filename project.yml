@@ -6,7 +6,7 @@
 
 :project:
   :use_exceptions: FALSE
-  :use_test_preprocessor: TRUE
+  :use_test_preprocessor: :all
   :use_auxiliary_dependencies: TRUE
   :build_root: build
   #  :release_build: TRUE
@@ -70,12 +70,16 @@
 # You will need to have gcov and gcovr both installed to make it work.
 # For more information on these options, see docs in plugins/gcov
 :gcov:
+  :enabled: true
   :reports:
     - HtmlDetailed
   :gcovr:
+    :html: true
+    :output_directory: build/artifacts/coverage
     :html_medium_threshold: 75
     :html_high_threshold: 90
   :uncovered_ignore_list: [src/main.c]
+
 
 #:tools:
 # Ceedling defaults to using gcc for compiling, linking, etc.
@@ -95,9 +99,8 @@
   :release: []
 
 :plugins:
-  :load_paths:
-    - "#{Ceedling.load_path}"
+  :load_paths: []
   :enabled:
-    - stdout_pretty_tests_report
+#    - stdout_pretty_tests_report
     - module_generator
     - gcov
